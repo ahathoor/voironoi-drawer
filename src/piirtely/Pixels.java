@@ -18,9 +18,9 @@ import piirtely.väri.IndeksoituVäri;
 public class Pixels extends JPanel{
     BufferedImage bi;
     public Pixels() {
-        bi = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
-        Voronoi voronoi = new Voronoi(bi.getWidth(),bi.getHeight(),300);
-        IndeksoituVäri väri = IndeksoituVäri.siniVäri(4);
+        bi = new BufferedImage(1920, 1024, BufferedImage.TYPE_INT_ARGB);
+        Voronoi voronoi = new Voronoi(bi.getWidth(),bi.getHeight(),10000);
+        IndeksoituVäri väri = IndeksoituVäri.satunnaisVäri(100);
         for (int i = 0; i < bi.getWidth(); i++) {
             for (int j = 0; j < bi.getHeight(); j++) {
                 bi.setRGB(i, j, väri.väri(voronoi.whose(new int[] {i,j})));
@@ -32,7 +32,7 @@ public class Pixels extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         g.drawLine(0, 0, 50, 70);
-        g.drawImage(bi.getScaledInstance(512, 512, BufferedImage.SCALE_FAST),0,0,null);
+        g.drawImage(bi.getScaledInstance(1920, 1024, BufferedImage.SCALE_FAST),0,0,null);
     }
     
 }
