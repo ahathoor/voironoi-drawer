@@ -20,7 +20,7 @@ public class Pixels extends JPanel{
     public Pixels() {
         bi = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
         Voronoi voronoi = new Voronoi(bi.getWidth(),bi.getHeight(),300);
-        IndeksoituVäri väri = IndeksoituVäri.siniVäri(2);
+        IndeksoituVäri väri = IndeksoituVäri.siniVäri(4);
         for (int i = 0; i < bi.getWidth(); i++) {
             for (int j = 0; j < bi.getHeight(); j++) {
                 bi.setRGB(i, j, väri.väri(voronoi.whose(new int[] {i,j})));
