@@ -24,6 +24,9 @@ public class Voronoi {
             this.generators[i][1] = new Random().nextInt(height);
         }
     }
+    public double manhattan_dist(int[] xy, int[] xy2) {
+        return Math.abs((xy[0]-xy2[0]))+Math.abs((xy[1]-xy2[1]));
+    }
     public double dist(int[] xy, int[] xy2) {
         return Math.sqrt((xy[0]-xy2[0])*(xy[0]-xy2[0])+(xy[1]-xy2[1])*(xy[1]-xy2[1]));
     }
