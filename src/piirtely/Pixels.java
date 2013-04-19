@@ -4,10 +4,8 @@
  */
 package piirtely;
 
-import piirtely.väri.SatunnaisVäri;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 import piirtely.väri.IndeksoituVäri;
 
@@ -20,7 +18,7 @@ public class Pixels extends JPanel{
     public Pixels() {
         bi = new BufferedImage(1920, 1024, BufferedImage.TYPE_INT_ARGB);
         Voronoi voronoi = new Voronoi(bi.getWidth(),bi.getHeight(),10000);
-        IndeksoituVäri väri = IndeksoituVäri.satunnaisVäri(100);
+        IndeksoituVäri väri = IndeksoituVäri.siniVäri(256);
         for (int i = 0; i < bi.getWidth(); i++) {
             for (int j = 0; j < bi.getHeight(); j++) {
                 bi.setRGB(i, j, väri.väri(voronoi.whose(new int[] {i,j})));
