@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package piirtely;
+package piirtely.Voronoi;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import piirtely.väri.IndeksoituVäri;
 
 /**
  *
@@ -21,17 +23,19 @@ public class Voronoi {
     private int bucketsSq = 64;
 
     private long bucketHash(int[] xy) {
-            return bucketHash(xy, 0, 0);
-    }    
-    private long bucketHash(int[] xy, int xoffs, int yoffs) {
-            long x = xy[0] * bucketsSq / width;
-            x+= xoffs;
-            long y = xy[1] * bucketsSq / height;
-            y+=yoffs;
-            return  (x << 32) + y;
+        return bucketHash(xy, 0, 0);
     }
+
+    private long bucketHash(int[] xy, int xoffs, int yoffs) {
+        long x = xy[0] * bucketsSq / width;
+        x += xoffs;
+        long y = xy[1] * bucketsSq / height;
+        y += yoffs;
+        return (x << 32) + y;
+    }
+
     public Voronoi(int width, int height, int gen) {
-        bucketsSq = (int)Math.sqrt(gen)/2;
+        bucketsSq = (int) Math.sqrt(gen) / 2;
         buckets = new HashMap();
         this.width = width;
         this.height = height;
@@ -39,17 +43,13 @@ public class Voronoi {
         for (int i = 0; i < this.generators.length; i++) {
             this.generators[i][0] = new Random().nextInt(width);
             this.generators[i][1] = new Random().nextInt(height);
-            
+
             long bh = bucketHash(generators[i]);
             if (!buckets.containsKey(bh)) {
                 buckets.put(bh, new ArrayList());
             }
             buckets.get(bh).add(i);
         }
-    }
-
-    public double manhattan_dist(int[] xy, int[] xy2) {
-        return Math.abs((xy[0] - xy2[0])) + Math.abs((xy[1] - xy2[1]));
     }
 
     public double dist(int[] xy, int[] xy2) {
@@ -63,8 +63,9 @@ public class Voronoi {
             for (int j = -1; j != 2; j++) {
                 long bh = bucketHash(xy, i, j);
                 ArrayList<Integer> neighbours = buckets.get(bh);
-                if (neighbours == null)
+                if (neighbours == null) {
                     continue;
+                }
                 for (int k = 0; k < neighbours.size(); k++) {
                     int p = neighbours.get(k);
                     int[] is = generators[p];
@@ -77,5 +78,15 @@ public class Voronoi {
             }
         }
         return mini;
+    }
+
+    public BufferedImage getBufferedImage(IndeksoituVäri väri) {
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        for (int i = 0; i < bi.getWidth(); i++) {
+            for (int j = 0; j < bi.getHeight(); j++) {
+                bi.setRGB(i, j, väri.väri(this.whose(new int[]{i, j})));
+            }
+        }
+        return bi;
     }
 }
