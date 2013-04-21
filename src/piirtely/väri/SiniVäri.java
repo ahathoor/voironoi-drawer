@@ -18,6 +18,6 @@ public class SiniVäri extends IndeksoituVäri {
 
     @Override
     public int väri(int index) {
-        return (255 << 24) + ((index % koko) * (255 / koko));
+        return (255 << 24) + ((index % koko) * (256 / koko));
     }
 }
