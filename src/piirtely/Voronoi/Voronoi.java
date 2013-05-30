@@ -56,9 +56,48 @@ public class Voronoi {
         return Math.sqrt((xy[0] - xy2[0]) * (xy[0] - xy2[0]) + (xy[1] - xy2[1]) * (xy[1] - xy2[1]));
     }
 
+    /**
+     * Makes increasing size search boxes around the bucket the point is in.
+     * @param xy
+     * @return 
+     */
+    public int whose2(int[] xy) {
+        double mind = Integer.MAX_VALUE;
+        int mini = -1;
+        for (int ringsize = 1; ringsize < 100; ringsize++) {
+            for (int i = -ringsize; i <= ringsize; i++) {
+                for (int j = -ringsize; j <= ringsize; j++) {
+                    if (i == ringsize || j == ringsize || i == -ringsize || j == -ringsize || ringsize == 1) {
+                        long bh = bucketHash(xy, i, j);
+                        ArrayList<Integer> neighbours = buckets.get(bh);
+                        if (neighbours == null) {
+                            continue;
+                        }
+                        for (int k = 0; k < neighbours.size(); k++) {
+                            int p = neighbours.get(k);
+                            int[] is = generators[p];
+                            double dist = dist(is, xy);
+                            if (dist < mind) {
+                                mind = dist;
+                                mini = p;
+                            }
+                        }
+                    }
+                }
+            }
+            if (mini != -1) {
+                break;
+            }
+        }
+        return mini;
+    }
+
     public int whose(int[] xy) {
         double mind = Integer.MAX_VALUE;
         int mini = -1;
+        if (2 + 2 == 4) {
+            return whose2(xy);
+        }
         for (int i = -1; i != 2; i++) {
             for (int j = -1; j != 2; j++) {
                 long bh = bucketHash(xy, i, j);

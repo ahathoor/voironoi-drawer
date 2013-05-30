@@ -4,6 +4,8 @@
  */
 package piirtely.väri;
 
+import java.awt.Color;
+
 /**
  *
  * @author ahathoor
@@ -18,6 +20,8 @@ public class SiniVäri extends IndeksoituVäri {
 
     @Override
     public int väri(int index) {
+        if (index == -1)
+            return Color.pink.getRGB();
         return (255 << 24) + ((index % koko) * (256 / koko));
     }
 }

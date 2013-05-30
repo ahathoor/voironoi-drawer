@@ -11,8 +11,11 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import piirtely.Voronoi.Voronoi;
+import piirtely.väri.IndeksoituVäri;
 
 /**
  *
@@ -22,6 +25,7 @@ public class Pixels extends JPanel implements MouseListener, MouseMotionListener
 
     ArrayList<Box> boxes = new ArrayList();
     ArrayList<Box> selected = new ArrayList();
+    BufferedImage vi = new Voronoi(500, 500, 50).getBufferedImage(IndeksoituVäri.satunnaisVäri(100));
 
     public Pixels() {
         boxes.add(new Box(10, 10, 10, 10));
@@ -46,6 +50,7 @@ public class Pixels extends JPanel implements MouseListener, MouseMotionListener
             }
             g.drawRect(box.getRect().x, box.getRect().y, box.getRect().width, box.getRect().height);
         }
+        g.drawImage(vi, 0, 0, this);
     }
 
     @Override
@@ -61,6 +66,7 @@ public class Pixels extends JPanel implements MouseListener, MouseMotionListener
         dragging = true;
         selected.clear();
         dragStart = me.getPoint();
+        dragEnd = me.getPoint();
     }
 
     @Override
@@ -71,6 +77,7 @@ public class Pixels extends JPanel implements MouseListener, MouseMotionListener
             }
         }
         dragging = false;
+        repaint();
     }
 
     @Override
@@ -85,6 +92,7 @@ public class Pixels extends JPanel implements MouseListener, MouseMotionListener
     public void mouseDragged(MouseEvent e) {
         dragEnd = e.getPoint();
         dragRect.setFrameFromDiagonal(dragStart, dragEnd);
+        repaint();
     }
 
     @Override

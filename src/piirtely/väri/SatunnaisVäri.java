@@ -4,6 +4,7 @@
  */
 package piirtely.väri;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -27,6 +28,8 @@ public class SatunnaisVäri extends IndeksoituVäri {
 
     @Override
     public int väri(int i) {
+        if (i == -1)
+            return Color.pink.getRGB();
         return värit[i%värit.length];
     }
 }
